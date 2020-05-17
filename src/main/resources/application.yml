@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: order-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    jmx:
+      exposure:
+        include: '*'
+server:
+  port : 8012
+  
+catalogue:
+  resource:
+    url: http://127.0.0.1:8010/catalogue
+customer:
+  resource:
+    url: http://127.0.0.1:8011/customers
