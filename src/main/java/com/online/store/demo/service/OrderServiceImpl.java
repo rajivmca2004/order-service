@@ -1,5 +1,7 @@
 package com.online.store.demo.service;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,14 +23,20 @@ import com.online.store.demo.model.Customer;
 public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 
 
-	@Value("${catalogue.resource.url}")
-	String catalogueResourceUrl;
+	@Value("${catalogue.resource.host}")
+	private String catalogueResourceHost;
+	
+	@Value("${catalogue.resource.port}")
+	private String catalogueResourcePort;
 
-	@Value("${customer.resource.url}")
-	String customerResourceUrl;
+	@Value("${customer.resource.host}")
+	private String customerResourceHost;
+	
+	@Value("${customer.resource.port}")
+	private String customerResourcePort;
 
 	/*
 	 * Fetch from Catalogue Micro-Service
@@ -36,10 +44,12 @@ public class OrderServiceImpl implements OrderService {
 	
 
 	@Override
-	public List<Catalogue> fetchCatalogueService() {
+	public List<Catalogue> fetchCatalogueService() throws URISyntaxException {
 		List<Catalogue> catalogueList= null;
+		
+		URI catalogueUri = new URI("http://"+catalogueResourceHost+":"+catalogueResourcePort+"/catalogue");
 
-		ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueResourceUrl, Catalogue[].class);
+		ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
 		Catalogue[] catalogue = catalogueResponse.getBody();
 
 		if (catalogueResponse.getStatusCode().is2xxSuccessful()) {
@@ -54,10 +64,13 @@ public class OrderServiceImpl implements OrderService {
 
 	
 	@Override
-	public List<Customer> fetchCustomerService() {
+	public List<Customer> fetchCustomerService() throws URISyntaxException {
 		List<Customer> customerList= null;
+		
+		URI customerUri = new URI("http://"+customerResourceHost+":"+customerResourcePort+"/customers");
 
-		ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerResourceUrl, Customer[].class);
+
+		ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
 		Customer[] customer = customerResponse.getBody();
 		if (customerResponse.getStatusCode().is2xxSuccessful()) {
 			customerList=Arrays.asList(customer);
