@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<Catalogue> fetchCatalogueService() throws URISyntaxException {
 		List<Catalogue> catalogueList= null;
 		
-		URI catalogueUri = new URI("http://"+catalogueResourceHost+":"+catalogueResourcePort+"/catalogue");
+		URI catalogueUri = new URI(catalogueResourceHost+":"+catalogueResourcePort+"/catalogue");
 
 		ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
 		Catalogue[] catalogue = catalogueResponse.getBody();
@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<Customer> fetchCustomerService() throws URISyntaxException {
 		List<Customer> customerList= null;
 		
-		URI customerUri = new URI("http://"+customerResourceHost+":"+customerResourcePort+"/customers");
+		URI customerUri = new URI(customerResourceHost+":"+customerResourcePort+"/customers");
 
 
 		ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
