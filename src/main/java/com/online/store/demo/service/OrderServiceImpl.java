@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 		List<Catalogue> catalogueList= null;
 		
 		URI catalogueUri = new URI("http://"+catalogueResourceHost+":"+catalogueResourcePort+"/catalogue");
-		System.out.println("catalogueUri=>"+catalogueUri.toString());
+		System.out.println("*******catalogueUri=>"+catalogueUri.toString());
 
 
 		//ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
@@ -78,11 +78,11 @@ public class OrderServiceImpl implements OrderService {
 		List<Customer> customerList= null;
 		
 		URI customerUri = new URI("http://"+customerResourceHost+":"+customerResourcePort+"/customers");
-		System.out.println("customerUri=>"+customerUri.toString());
+		System.out.println("*****customerUri=>"+customerUri.toString());
 
 		//ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
 		try {
-			ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity("http://customer-management-service:8010/catalogue", Customer[].class);
+			ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity("http://customer-management-service:8011/customers", Customer[].class);
 
 			Customer[] customer = customerResponse.getBody();
 			if (customerResponse.getStatusCode().is2xxSuccessful()) {
