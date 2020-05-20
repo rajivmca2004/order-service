@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.online.store.demo.model.Catalogue;
@@ -47,13 +48,22 @@ public class OrderServiceImpl implements OrderService {
 	public List<Catalogue> fetchCatalogueService() throws URISyntaxException {
 		List<Catalogue> catalogueList= null;
 		
-		URI catalogueUri = new URI(catalogueResourceHost+":"+catalogueResourcePort+"/catalogue");
+		URI catalogueUri = new URI("http://"+catalogueResourceHost+":"+catalogueResourcePort+"/catalogue");
+		System.out.println("catalogueUri=>"+catalogueUri.toString());
 
-		ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
-		Catalogue[] catalogue = catalogueResponse.getBody();
 
-		if (catalogueResponse.getStatusCode().is2xxSuccessful()) {
-			catalogueList=Arrays.asList(catalogue);
+		//ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
+		try {
+			ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity("http://catalogue-service:8010/catalogue", Catalogue[].class);
+
+			Catalogue[] catalogue = catalogueResponse.getBody();
+
+			if (catalogueResponse.getStatusCode().is2xxSuccessful()) {
+				catalogueList=Arrays.asList(catalogue);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return catalogueList;
 	}
@@ -67,13 +77,20 @@ public class OrderServiceImpl implements OrderService {
 	public List<Customer> fetchCustomerService() throws URISyntaxException {
 		List<Customer> customerList= null;
 		
-		URI customerUri = new URI(customerResourceHost+":"+customerResourcePort+"/customers");
+		URI customerUri = new URI("http://"+customerResourceHost+":"+customerResourcePort+"/customers");
+		System.out.println("customerUri=>"+customerUri.toString());
 
+		//ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
+		try {
+			ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity("http://customer-management-service:8010/catalogue", Customer[].class);
 
-		ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
-		Customer[] customer = customerResponse.getBody();
-		if (customerResponse.getStatusCode().is2xxSuccessful()) {
-			customerList=Arrays.asList(customer);
+			Customer[] customer = customerResponse.getBody();
+			if (customerResponse.getStatusCode().is2xxSuccessful()) {
+				customerList=Arrays.asList(customer);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return customerList;
 	}
