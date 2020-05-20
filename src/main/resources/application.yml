@@ -21,9 +21,9 @@ server:
 
 catalogue:
   resource:
-    host: ${CATALOGUE_HOST:localhost11} #Catalogue Micro-Service
+    host: ${CATALOGUE_HOST:localhost} #Catalogue Micro-Service
     port: ${CATALOGUE_PORT:8010}
 customer:
   resource:
-    host:  ${CUSTOMER_HOST:localhost11} #Customers  Micro-Service
+    host:  ${CUSTOMER_HOST:localhost} #Customers  Micro-Service
     port: ${CUSTOMER_PORT:8011}
