@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 				logger.info("No response or Error from [CATALOGUE SERVICE]");
 			}
 		} catch (Exception e) {
-			logger.error(e.getStackTrace().toString());
+			logger.error(e.getMessage());
 		}
 		return catalogueList;
 	}
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 			
 		} catch (Exception e) {
-			logger.error(e.getStackTrace().toString());
+			logger.error(e.getMessage());
 		}
 		return customerList;
 	}
