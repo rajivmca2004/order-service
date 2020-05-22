@@ -50,10 +50,9 @@ public class OrderServiceImpl implements OrderService {
 		List<Catalogue> catalogueList = null;
 
 		URI catalogueUri = new URI("http://" + catalogueResourceHost + ":" + catalogueResourcePort + "/catalogue");
-		logger.info("*******catalogueUri=>" + catalogueUri.toString());
 
 		try {
-			logger.info("******* Calling CATALOGUE SERVICE**********");
+			logger.info("******* Calling CATALOGUE SERVICE**********catalogueUri=> "+catalogueUri);
 			ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
 			// ResponseEntity<Catalogue[]> catalogueResponse =restTemplate.getForEntity("http://catalogue-service:8010/catalogue",Catalogue[].class);
 
@@ -66,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return catalogueList;
 	}
@@ -79,10 +79,9 @@ public class OrderServiceImpl implements OrderService {
 		List<Customer> customerList = null;
 
 		URI customerUri = new URI("http://" + customerResourceHost + ":" + customerResourcePort + "/customers");
-		logger.info("*****customerUri=>" + customerUri.toString());
 
 		try {
-			logger.info("******* Calling CUSTOMER SERVICE**********");
+			logger.info("******* Calling CUSTOMER SERVICE**********customerUri=> "+customerUri.toString());
 			ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
 			// ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity("http://customer-management-service:8011/customers",Customer[].class);
 
@@ -95,6 +94,7 @@ public class OrderServiceImpl implements OrderService {
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return customerList;
 	}
