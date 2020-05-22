@@ -34,7 +34,7 @@ public class OrderRepoCLR implements CommandLineRunner {
 		List<Catalogue> catalogueList = orderService.fetchCatalogueService();
 		List<Customer> customerList = orderService.fetchCustomerService();
 		
-		if (catalogueList.size() == customerList.size()) {
+		if (null!=catalogueList && null!=customerList && catalogueList.size() == customerList.size()) {
 
 			for (int i = 0; i < catalogueList.size(); i++) {
 				orderRepository.save(new PurchaseOrder(customerList.get(i).getName(), customerList.get(i).getEmail(),
@@ -42,7 +42,6 @@ public class OrderRepoCLR implements CommandLineRunner {
 			}
 		}
 
-		System.out.println("***************** ORDER SERVICE :: http://127.0.0.1:8012 ");
 		orderRepository.findAll().forEach(System.out::println);
 	}
 }

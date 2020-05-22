@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 	private String customerResourcePort;
 
 	/*
-	 * Fetch from Catalogue Micro-Service
+	 * Fetch from Catalogue Service
 	 */
 
 	@Override
@@ -50,9 +50,10 @@ public class OrderServiceImpl implements OrderService {
 		List<Catalogue> catalogueList = null;
 
 		URI catalogueUri = new URI("http://" + catalogueResourceHost + ":" + catalogueResourcePort + "/catalogue");
-		System.out.println("*******catalogueUri=>" + catalogueUri.toString());
+		logger.info("*******catalogueUri=>" + catalogueUri.toString());
 
 		try {
+			logger.info("******* Calling CATALOGUE SERVICE**********");
 			ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
 			// ResponseEntity<Catalogue[]> catalogueResponse =restTemplate.getForEntity("http://catalogue-service:8010/catalogue",Catalogue[].class);
 
@@ -60,6 +61,8 @@ public class OrderServiceImpl implements OrderService {
 
 			if (catalogueResponse.getStatusCode().is2xxSuccessful()) {
 				catalogueList = Arrays.asList(catalogue);
+			}else {
+				logger.info("No response or Error from [CATALOGUE SERVICE]");
 			}
 		} catch (Exception e) {
 			logger.error(e.getStackTrace().toString());
@@ -76,16 +79,20 @@ public class OrderServiceImpl implements OrderService {
 		List<Customer> customerList = null;
 
 		URI customerUri = new URI("http://" + customerResourceHost + ":" + customerResourcePort + "/customers");
-		System.out.println("*****customerUri=>" + customerUri.toString());
+		logger.info("*****customerUri=>" + customerUri.toString());
 
 		try {
+			logger.info("******* Calling CUSTOMER SERVICE**********");
 			ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
 			// ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity("http://customer-management-service:8011/customers",Customer[].class);
 
 			Customer[] customer = customerResponse.getBody();
 			if (customerResponse.getStatusCode().is2xxSuccessful()) {
 				customerList = Arrays.asList(customer);
+			}else {
+				logger.info("No response or Error from [CUSTOMER SERVICE]");
 			}
+			
 		} catch (Exception e) {
 			logger.error(e.getStackTrace().toString());
 		}
