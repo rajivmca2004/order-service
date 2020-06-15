@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: order-service
-  namespace: default
+  namespace: onlinestore-demo
 spec:
   ports:
   - port: 8012
@@ -20,6 +20,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-app-deployment
+  namespace: onlinestore-demo
 spec:
   selector:
     matchLabels:
@@ -32,7 +33,16 @@ spec:
     spec:
       containers:
       - name: order-service-app
-        image: harbor.tanzu.cloudification.in/library/order-service-app-demo #Harbor or Docker hub image path and name
+        image: itsrajivsrivastava/order-service #Harbor or Docker hub image path and name
+        env:
+        - name: CATALOGUE_HOST
+          value: "8012"
+        - name: CATALOGUE_PORT
+          value: "8010"
+        - name: CUSTOMER_HOST
+          value: customer-management-service.onlinestore.demo
+        - name: CUSTOMER_PORT
+          value: "8011"
         ports:
         - containerPort: 8012
           name: server
