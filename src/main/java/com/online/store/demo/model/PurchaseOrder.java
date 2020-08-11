@@ -6,10 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 /**
  * @author rasrivastava
  *
@@ -17,8 +13,6 @@ import lombok.ToString;
 
 @SuppressWarnings("unused")
 @Entity
-@Data
-@EqualsAndHashCode (exclude = "id")
 public class PurchaseOrder {
 	
 	@Id
@@ -48,6 +42,45 @@ public class PurchaseOrder {
 		this.price = price;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCname() {
+		return cname;
+	}
+
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 	@Override
 	public String toString() {
 		return "PurchaseOrder [id=" + id + ", cname=" + cname + ", email=" + email + ", pname=" + pname + ", price="
