@@ -11,7 +11,6 @@ import javax.persistence.Id;
  *
  */
 
-@SuppressWarnings("unused")
 @Entity
 public class PurchaseOrder {
 	
