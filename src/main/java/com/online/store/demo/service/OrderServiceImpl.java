@@ -2,6 +2,7 @@ package com.online.store.demo.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.online.store.demo.model.Catalogue;
 import com.online.store.demo.model.Customer;
+import com.online.store.demo.model.PurchaseOrder;
 
 /**
  * @author rasrivastava
@@ -41,6 +43,29 @@ public class OrderServiceImpl implements OrderService {
 	@Value("${customer.resource.port}")
 	private String customerResourcePort;
 
+	@SuppressWarnings("null")
+	@Override
+	public List<PurchaseOrder> fetchOrdereDetails() throws URISyntaxException {
+
+		List<Catalogue> catalogues = fetchCatalogueService();
+		List<Customer> customers = fetchCustomerService();
+
+		List<PurchaseOrder> purchaseOrders = new ArrayList<>();
+		PurchaseOrder purchaseOrder;
+
+		for (int i = 0; i < 4; i++) {
+			purchaseOrder = new PurchaseOrder();
+
+			purchaseOrder.setId(customers.get(i).getId());
+			purchaseOrder.setCname(customers.get(i).getName());
+			purchaseOrder.setEmail(customers.get(i).getEmail());
+			purchaseOrder.setPname(catalogues.get(i).getName());
+			purchaseOrder.setPrice(catalogues.get(i).getPrice());
+			purchaseOrders.add(purchaseOrder);
+		}
+		return purchaseOrders;
+	}
+
 	/*
 	 * Fetch from Catalogue Service
 	 */
@@ -52,15 +77,13 @@ public class OrderServiceImpl implements OrderService {
 		URI catalogueUri = new URI("http://" + catalogueResourceHost + ":" + catalogueResourcePort + "/catalogue");
 
 		try {
-			logger.info("******* Calling CATALOGUE SERVICE**********catalogueUri=> "+catalogueUri);
+			logger.info("******* Calling CATALOGUE SERVICE**********catalogueUri=> " + catalogueUri);
 			ResponseEntity<Catalogue[]> catalogueResponse = restTemplate.getForEntity(catalogueUri, Catalogue[].class);
-			// ResponseEntity<Catalogue[]> catalogueResponse =restTemplate.getForEntity("http://catalogue-service:8010/catalogue",Catalogue[].class);
-
 			Catalogue[] catalogue = catalogueResponse.getBody();
 
 			if (catalogueResponse.getStatusCode().is2xxSuccessful()) {
 				catalogueList = Arrays.asList(catalogue);
-			}else {
+			} else {
 				logger.info("No response or Error from [CATALOGUE SERVICE]");
 			}
 		} catch (Exception e) {
@@ -81,21 +104,21 @@ public class OrderServiceImpl implements OrderService {
 		URI customerUri = new URI("http://" + customerResourceHost + ":" + customerResourcePort + "/customers");
 
 		try {
-			logger.info("******* Calling CUSTOMER SERVICE**********customerUri=> "+customerUri.toString());
+			logger.info("******* Calling CUSTOMER SERVICE**********customerUri=> " + customerUri.toString());
 			ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity(customerUri, Customer[].class);
-			// ResponseEntity<Customer[]> customerResponse = restTemplate.getForEntity("http://customer-management-service:8011/customers",Customer[].class);
 
 			Customer[] customer = customerResponse.getBody();
 			if (customerResponse.getStatusCode().is2xxSuccessful()) {
 				customerList = Arrays.asList(customer);
-			}else {
+			} else {
 				logger.info("No response or Error from [CUSTOMER SERVICE]");
 			}
-			
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return customerList;
 	}
+
 }

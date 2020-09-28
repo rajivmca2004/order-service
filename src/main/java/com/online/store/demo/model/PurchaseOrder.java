@@ -1,33 +1,20 @@
 package com.online.store.demo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 /**
  * @author rasrivastava
  *
  */
 
-@Entity
 public class PurchaseOrder {
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
     private String cname;
     
-    @Column
     private String email;
     
-    @Column
     private String pname;
     
-    @Column
     private Double price;
     
     public PurchaseOrder() {

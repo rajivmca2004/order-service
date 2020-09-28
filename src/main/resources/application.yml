@@ -1,9 +1,8 @@
 spring:
   application:
     name: order-service
-  jpa:
-    hibernate:
-      ddl-auto: update
+server:
+  port : 8012
 management:
   endpoint:
     health:
@@ -16,9 +15,7 @@ management:
     jmx:
       exposure:
         include: '*'
-server:
-  port : 8012
-
+        
 catalogue:
   resource:
     host: ${CATALOGUE_HOST:localhost} #Catalogue Micro-Service
