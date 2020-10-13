@@ -1,5 +1,8 @@
 package com.online.store.demo.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * @author rasrivastava
  *
@@ -9,8 +12,12 @@ public class PurchaseOrder {
 	
     private Long id;
 
+    @NotBlank
+    @Size(min = 0, max = 30)
     private String cname;
     
+    @NotBlank
+    @Size(min = 0, max = 40)
     private String email;
     
     private String pname;

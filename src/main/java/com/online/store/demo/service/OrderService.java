@@ -15,5 +15,11 @@ public interface OrderService {
 	
 	public List<PurchaseOrder> fetchOrdereDetails() throws URISyntaxException;
 
+	public List<Object> createOrdereDetails(String id, PurchaseOrder purchaseOrder);
 
+	public List<Object> deleteOrdereDetails(String id);
+
+	public List<Object> updateOrdereDetails(String id, PurchaseOrder purchaseOrder);
+
+	public List<PurchaseOrder> fetchOrdereDetails(String id);
 }

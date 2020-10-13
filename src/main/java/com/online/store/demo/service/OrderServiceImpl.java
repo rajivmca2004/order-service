@@ -121,4 +121,29 @@ public class OrderServiceImpl implements OrderService {
 		return customerList;
 	}
 
+	@Override
+	public List<Object> createOrdereDetails(String id, PurchaseOrder purchaseOrder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Object> deleteOrdereDetails(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Object> updateOrdereDetails(String id, PurchaseOrder purchaseOrder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PurchaseOrder> fetchOrdereDetails(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }
