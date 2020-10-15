@@ -38,6 +38,12 @@ public class OrderController {
 		return orders;
 	}
 
+	//Test Spring Cloud Circuit breaker using Resileince4j
+	@GetMapping("/catalogues")
+	public String fetchCatalogue() throws URISyntaxException {
+		return orderService.fetchCatalogueServiceCircuitBreaker();
+	}
+
 	@PostMapping("/orders/{id}")
 	public List<Object> postOrders(@PathVariable("id") final String id, @RequestBody final PurchaseOrder purchaseOrder)
 			throws URISyntaxException {
@@ -65,7 +71,9 @@ public class OrderController {
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
 			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content) })
 	@GetMapping("/orders/{id}")
-	public List<PurchaseOrder> getOrderById(@Parameter(description = "order id to be searched") @PathVariable("id") final String id) throws URISyntaxException {
+	public List<PurchaseOrder> getOrderById(
+			@Parameter(description = "order id to be searched") @PathVariable("id") final String id)
+			throws URISyntaxException {
 		List<PurchaseOrder> orders = orderService.fetchOrdereDetails(id);
 		return orders;
 	}

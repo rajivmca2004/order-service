@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -43,7 +45,9 @@ public class OrderServiceImpl implements OrderService {
 	@Value("${customer.resource.port}")
 	private String customerResourcePort;
 
-	@SuppressWarnings("null")
+	@Autowired
+	private CircuitBreakerFactory<?,?> circuitBreakerFactory;
+
 	@Override
 	public List<PurchaseOrder> fetchOrdereDetails() throws URISyntaxException {
 
@@ -122,6 +126,32 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public String fetchCatalogueServiceCircuitBreaker() throws URISyntaxException {
+		String catalogueRespone = null;
+		CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitbreaker");
+		
+		URI catalogueUri = new URI("http://" + catalogueResourceHost + ":" + catalogueResourcePort + "/catalogue");
+
+		try {
+			logger.info("******* Calling CATALOGUE SERVICE- Circuit breaker**********catalogueUri=> " + catalogueUri);
+			catalogueRespone= circuitBreaker.run(() -> restTemplate.getForObject(catalogueUri, String.class), throwable -> getDefaultCatalogueList());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return catalogueRespone;
+	}
+
+	// Circuit breaker- Fall back method if catalogue REST API won't respond
+	private String getDefaultCatalogueList() {
+		logger.info("******* Calling Fallback API **********");
+		/*
+		 * Fallback business logic goes here 
+		 */
+		return "Calling Fallback API";
+	}
+
+	@Override
 	public List<Object> createOrdereDetails(String id, PurchaseOrder purchaseOrder) {
 		// TODO Auto-generated method stub
 		return null;
@@ -144,6 +174,5 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

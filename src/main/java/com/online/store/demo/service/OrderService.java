@@ -9,17 +9,19 @@ import com.online.store.demo.model.PurchaseOrder;
 
 public interface OrderService {
 
-	public List<Catalogue> fetchCatalogueService() throws URISyntaxException;
-
-	public List<Customer> fetchCustomerService() throws URISyntaxException;
+	List<Catalogue> fetchCatalogueService() throws URISyntaxException;
 	
-	public List<PurchaseOrder> fetchOrdereDetails() throws URISyntaxException;
+	String fetchCatalogueServiceCircuitBreaker() throws URISyntaxException;
 
-	public List<Object> createOrdereDetails(String id, PurchaseOrder purchaseOrder);
+	List<Customer> fetchCustomerService() throws URISyntaxException;
+	
+	List<PurchaseOrder> fetchOrdereDetails() throws URISyntaxException;
 
-	public List<Object> deleteOrdereDetails(String id);
+	List<Object> createOrdereDetails(String id, PurchaseOrder purchaseOrder);
 
-	public List<Object> updateOrdereDetails(String id, PurchaseOrder purchaseOrder);
+	List<Object> deleteOrdereDetails(String id);
 
-	public List<PurchaseOrder> fetchOrdereDetails(String id);
+	List<Object> updateOrdereDetails(String id, PurchaseOrder purchaseOrder);
+
+	List<PurchaseOrder> fetchOrdereDetails(String id);
 }
