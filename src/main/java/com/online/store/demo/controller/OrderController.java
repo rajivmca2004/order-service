@@ -44,10 +44,10 @@ public class OrderController {
 		return orderService.fetchCatalogueServiceCircuitBreaker();
 	}
 
-	@PostMapping("/orders/{id}")
-	public List<Object> postOrders(@PathVariable("id") final String id, @RequestBody final PurchaseOrder purchaseOrder)
+	@PostMapping("/orders")
+	public List<Object> postOrders(@RequestBody final PurchaseOrder purchaseOrder)
 			throws URISyntaxException {
-		List<Object> orders = orderService.createOrdereDetails(id, purchaseOrder);
+		List<Object> orders = orderService.createOrdereDetails(purchaseOrder);
 		return orders;
 	}
 
